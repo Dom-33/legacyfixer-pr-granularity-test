@@ -1,0 +1,30 @@
+# Isolated Renovate benchmark (no branch, issue or PR writes).
+# Runs on the benchmark branch; the production main branch is untouched.
+name: Renovate benchmark dry-run
+on:
+  push:
+    branches:
+      - bench/renovate-phase-20261009
+  workflow_dispatch:
+permissions:
+  contents: read
+  pull-requests: read
+  issues: read
+jobs:
+  renovate-dry-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Run Renovate (read-only)
+        uses: renovatebot/github-action@230ce922b08968d0a4f6f70f295601daff09ef1d
+        with:
+          token: ${{ github.token }}
+          renovate-version: "44"
+        env:
+          RENOVATE_PLATFORM: github
+          RENOVATE_REPOSITORIES: Dom-33/legacyfixer-pr-granularity-test
+          RENOVATE_DRY_RUN: full
+          RENOVATE_ONBOARDING: "false"
+          RENOVATE_REQUIRE_CONFIG: optional
+          RENOVATE_CONFIG: '{"extends":["config:recommended"],"enabledManagers":["pip_requirements"],"automerge":false,"prConcurrentLimit":5,"prHourlyLimit":5,"dependencyDashboard":true}'
+          LOG_LEVEL: debug
