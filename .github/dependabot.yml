@@ -1,0 +1,12 @@
+# Benchmark configuration: Dependabot phase (do not run alongside Renovate).
+# Does not change dependency pins or merge pull requests.
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    open-pull-requests-limit: 5
+    versioning-strategy: "increase"
+    commit-message:
+      prefix: "bench(dependabot)"
